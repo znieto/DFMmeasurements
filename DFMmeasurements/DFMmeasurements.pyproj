@@ -28,10 +28,10 @@
     <Compile Include="app\forms\gui_main.py" />
     <Compile Include="app\forms\gui_main_1.py" />
     <Compile Include="app\config\configtools.py" />
-    <Compile Include="app\forms\gui_mp-meas.py">
+    <Compile Include="app\forms\gui_mp_meas.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="app\forms\gui_mpcomp-meas.py">
+    <Compile Include="app\forms\gui_mpcomp_meas.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="app\forms\__init__.py" />
