@@ -12,12 +12,13 @@ class AppConfig(object):
         """
         path = pathlib.Path(pathToFile)
         if path.exists():
-            print('Init file does not exist under this directory', pathToFile)
-        else:
             #File already exists
             self.Config = configparser.ConfigParser()
             self.Config.read(pathToFile)
             self.path=pathToFile
+        else:            
+            print('Init file does not exist under this directory', pathToFile)
+
 
     def save_option(self, path, section, option, value):
             """

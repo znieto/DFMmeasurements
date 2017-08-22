@@ -21,13 +21,19 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="app\config\global-settings.py" />
+    <Compile Include="app\config\global_settings.py" />
     <Compile Include="app\config\__init__.py" />
     <Compile Include="app\core\__init__.py" />
     <Compile Include="app\forms\bto.py" />
     <Compile Include="app\forms\gui_main.py" />
     <Compile Include="app\forms\gui_main_1.py" />
     <Compile Include="app\config\configtools.py" />
+    <Compile Include="app\forms\gui_mp-meas.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\forms\gui_mpcomp-meas.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\forms\__init__.py" />
     <Compile Include="app\utils\__init__.py" />
     <Compile Include="app\__init__.py" />
@@ -47,7 +53,7 @@
   <ItemGroup>
     <Content Include="app\forms\__pycache__\gui_main.cpython-36.pyc" />
     <Content Include="app\forms\__pycache__\__init__.cpython-36.pyc" />
-    <Content Include="starup.ini" />
+    <Content Include="startup.ini" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

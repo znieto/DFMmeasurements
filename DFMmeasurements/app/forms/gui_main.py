@@ -13,7 +13,6 @@ class MainWindow(QDialog):
 
     def ft_button(self,theButton):
         theButton.setToolTip('This is an example button')
-       # theButton.move(100,70) 
         theButton.clicked.connect(self.on_click)
         return theButton;
    
@@ -63,11 +62,4 @@ class MainWindow(QDialog):
         ex= MainWindow()
         sys.exit(app.exec_())
 
-
- 
- 
-#if __name__ == '__main__':
-#    app = QApplication(sys.argv)
-#    ex = App()
-#    sys.exit(app.exec_())
 
