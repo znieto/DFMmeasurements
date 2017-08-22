@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>870cc5e0-c527-46ae-8238-c2f29d1a4036</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>DFMmeasurements.py</StartupFile>
+    <StartupFile>main.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -21,7 +21,33 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DFMmeasurements.py" />
+    <Compile Include="app\config\global-settings.py" />
+    <Compile Include="app\config\__init__.py" />
+    <Compile Include="app\core\__init__.py" />
+    <Compile Include="app\forms\bto.py" />
+    <Compile Include="app\forms\gui_main.py" />
+    <Compile Include="app\forms\gui_main_1.py" />
+    <Compile Include="app\config\configtools.py" />
+    <Compile Include="app\forms\__init__.py" />
+    <Compile Include="app\utils\__init__.py" />
+    <Compile Include="app\__init__.py" />
+    <Compile Include="main.py" />
+    <Compile Include="__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="app\config\" />
+    <Folder Include="app\forms\" />
+    <Folder Include="app\forms\__pycache__\" />
+    <Folder Include="app\core\" />
+    <Folder Include="app\utils\" />
+    <Folder Include="app\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\forms\__pycache__\gui_main.cpython-36.pyc" />
+    <Content Include="app\forms\__pycache__\__init__.cpython-36.pyc" />
+    <Content Include="starup.ini" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
