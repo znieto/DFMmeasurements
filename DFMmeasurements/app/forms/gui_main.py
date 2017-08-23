@@ -2,16 +2,15 @@ import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QHBoxLayout, QGroupBox, QDialog, QVBoxLayout, QGridLayout
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
-from app.forms import *
+from . import gui_mp_meas
     
 class gui_main(QDialog):
     
     @pyqtSlot()
     def on_click(self):
-        print('PyQt5 button click')
-        gui_mp_meas.mainWindow()
-        #self._new_window = eval('gui_mp_meas')
-        #self._new_window.showdialog() 
+        print('PyQt5 button click')        
+        self._new_window = eval('gui_mp_meas')
+        self._new_window.gui_mp_meas.mainWindow()
         #gui_mp_meas.showdialog()
 
     def ft_button(self,theButton):

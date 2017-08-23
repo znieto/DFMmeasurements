@@ -7,9 +7,6 @@ class gui_mp_meas(QDialog):
     @pyqtSlot()
     def on_click(self):
         print('PyQt5 button click')
-        self._new_window = eval('gui_mp_meas')
-        self._new_window.showdialog() 
-        #gui_mp_meas.showdialog()
 
     def ft_button(self,theButton):
         theButton.setToolTip('This is an example button')
