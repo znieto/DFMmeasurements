@@ -1,12 +1,13 @@
 import app.config.configtools as ct
-import app.forms.gui_main as gui
+from app.forms import gui_main 
 import app.config.global_settings as g
+import app.core.guitools as gt
 
-g.mystring
 
-config = ct.AppConfig("C:\\Windows\\redir.txt")
-gui.MainWindow.mainWindow()
 
+config = ct.AppConfig(g.DEFAULT_CONFIG_PATH)
+gt.GUITool.loadMainGUI(config.Config)
+gui_main.mainWindow()
 
 
 

@@ -16,7 +16,5 @@ DEBUG = False
 CONFIG = None
 
 
-# Default content type and charset to use for all HttpResponse objects, if a
-# MIME type isn't manually specified. These are used to construct the
-# Content-Type header.
+# Default ini path
 DEFAULT_CONFIG_PATH = 'startup.ini'

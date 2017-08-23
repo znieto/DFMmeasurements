@@ -2,14 +2,17 @@ import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QHBoxLayout, QGroupBox, QDialog, QVBoxLayout, QGridLayout
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
-
-
+from app.forms import *
     
-class MainWindow(QDialog):
+class gui_main(QDialog):
     
     @pyqtSlot()
     def on_click(self):
         print('PyQt5 button click')
+        gui_mp_meas.mainWindow()
+        #self._new_window = eval('gui_mp_meas')
+        #self._new_window.showdialog() 
+        #gui_mp_meas.showdialog()
 
     def ft_button(self,theButton):
         theButton.setToolTip('This is an example button')
@@ -59,7 +62,9 @@ class MainWindow(QDialog):
         self.horizontalGroupBox.setLayout(layout)
     def mainWindow():
         app = QApplication(sys.argv)
-        ex= MainWindow()
+
+
+        ex= gui_main()
         sys.exit(app.exec_())
 
 

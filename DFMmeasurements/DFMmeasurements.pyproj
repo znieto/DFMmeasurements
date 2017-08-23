@@ -23,6 +23,9 @@
   <ItemGroup>
     <Compile Include="app\config\global_settings.py" />
     <Compile Include="app\config\__init__.py" />
+    <Compile Include="app\core\guitools.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\core\__init__.py" />
     <Compile Include="app\forms\bto.py" />
     <Compile Include="app\forms\gui_main.py" />
