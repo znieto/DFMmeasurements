@@ -12,6 +12,3 @@ gui_main.mainWindow()
 
 
 
-
-
-
