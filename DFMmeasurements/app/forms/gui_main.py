@@ -1,4 +1,5 @@
 import sys
+import importlib
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QHBoxLayout, QGroupBox, QDialog, QVBoxLayout, QGridLayout
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
@@ -8,10 +9,11 @@ class gui_main(QDialog):
     
     @pyqtSlot()
     def on_click(self):
-        print('PyQt5 button click')        
-        self._new_window = eval('gui_mp_meas')
-        self._new_window.gui_mp_meas.mainWindow()
-        #gui_mp_meas.showdialog()
+        print('PyQt5 button click') 
+        m=importlib.import_module('app.forms.gui_mp_meas')
+        self._new_window = eval('m.gui_mp_meas()')
+        self._new_window.show()
+
 
     def ft_button(self,theButton):
         theButton.setToolTip('This is an example button')
@@ -20,6 +22,7 @@ class gui_main(QDialog):
    
     def __init__(self):
         super().__init__()
+        self._new_window = None
         self.title = 'DFM Measurements Software'
         self.left = 10
         self.top = 10
@@ -60,10 +63,9 @@ class gui_main(QDialog):
  
         self.horizontalGroupBox.setLayout(layout)
     def mainWindow():
-        app = QApplication(sys.argv)
-
-
-        ex= gui_main()
-        sys.exit(app.exec_())
+       # if __name__ == '__main__':
+            app = QApplication(sys.argv)
+            ex= gui_main()
+            sys.exit(app.exec_())
 
 
