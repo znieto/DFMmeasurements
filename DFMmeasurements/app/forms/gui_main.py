@@ -1,31 +1,30 @@
 import sys
 import importlib
+import app.config.configtools as ct
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QHBoxLayout, QGroupBox, QDialog, QVBoxLayout, QGridLayout
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
 from . import gui_mp_meas
+from functools import partial
     
 class gui_main(QDialog):
     
     @pyqtSlot()
-    def on_click(self):
-        print('PyQt5 button click') 
-        m=importlib.import_module('app.forms.gui_mp_meas')
-        self._new_window = eval('m.gui_mp_meas()')
+    def on_click(self, nameWindow):
+        #import dynamic a window class
+        mWindow=importlib.import_module('app.forms.'+nameWindow)
+        #create an object of type nameWindow
+        self._new_window = eval('mWindow.'+nameWindow+'()')
+        #show the window
         self._new_window.show()
-
-
-    def ft_button(self,theButton):
-        theButton.setToolTip('This is an example button')
-        theButton.clicked.connect(self.on_click)
-        return theButton;
-   
+        return;
+ 
     def __init__(self):
         super().__init__()
         self._new_window = None
         self.title = 'DFM Measurements Software'
-        self.left = 10
-        self.top = 10
+        self.left = 150
+        self.top = 150
         self.width = 320
         self.height = 100
         self.initUI()
@@ -34,38 +33,41 @@ class gui_main(QDialog):
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
  
-        self.createGridLayout()
- 
-        windowLayout = QVBoxLayout()
-        windowLayout.addWidget(self.horizontalGroupBox)
-        self.setLayout(windowLayout)
- 
-        self.show()
- 
-    def createGridLayout(self):
+    def createButton(self,buttonSettings, aLayout, row, column):
+        Title = buttonSettings['title']
+        onClickWindow= buttonSettings['windowname']
+        ToolTip = buttonSettings['tooltip']
+        theButton = QPushButton(Title, self)
+        theButton.setToolTip('This is an example button')
+        theButton.clicked.connect( partial( self.on_click, nameWindow=onClickWindow))
+        
+        aLayout.addWidget(theButton,row,column) 
+
+        return theButton
+
+    def createGridLayout(self, configfile):
         self.horizontalGroupBox = QGroupBox("Grid")
         layout = QGridLayout()
         layout.setColumnStretch(1, 4)
-        layout.setColumnStretch(2, 4)
- 
-        theButton = QPushButton('PyQt5', self)
-        #https://stackoverflow.com/questions/29588732/qlayout-cannot-add-a-null-widget-to-qgridlayout
+        layout.setColumnStretch(2, 4)        
 
-        layout.addWidget(self.ft_button(theButton),0,0) 
-        layout.addWidget(QPushButton('2'),0,1) 
-        layout.addWidget(QPushButton('3'),0,2) 
-        layout.addWidget(QPushButton('4'),1,0) 
-        layout.addWidget(QPushButton('5'),1,1) 
-        layout.addWidget(QPushButton('6'),1,2) 
-        layout.addWidget(QPushButton('7'),2,0) 
-        layout.addWidget(QPushButton('8'),2,1) 
-        layout.addWidget(QPushButton('9'),2,2) 
+        # Get the buttons settings from the ini file.
+        sections = configfile.sections()        
+        i=0
+        for section in sections:
+            self.createButton(ct.AppConfig.configSectionMap(section,configfile),layout,0,i)
+            i+=1
  
         self.horizontalGroupBox.setLayout(layout)
-    def mainWindow():
-       # if __name__ == '__main__':
+        windowLayout = QVBoxLayout()
+        windowLayout.addWidget(self.horizontalGroupBox)
+        self.setLayout(windowLayout)
+
+    def mainWindow(configfile):
             app = QApplication(sys.argv)
             ex= gui_main()
+            ex.createGridLayout(configfile)
+            ex.show();
             sys.exit(app.exec_())
 
 

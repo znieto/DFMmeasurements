@@ -38,7 +38,7 @@ class AppConfig(object):
                 self.add_section(section)
             self.set(section, option, value)
 
-    def ConfigSectionMap(section):
+    def configSectionMap(section,Config):
         dict1 = {}
         options = Config.options(section)
         for option in options:
