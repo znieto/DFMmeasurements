@@ -21,16 +21,13 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="app\config\configtools.py" />
     <Compile Include="app\config\global_settings.py" />
     <Compile Include="app\config\__init__.py" />
-    <Compile Include="app\core\guitools.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="app\core\__init__.py" />
     <Compile Include="app\forms\bto.py" />
     <Compile Include="app\forms\gui_main.py" />
     <Compile Include="app\forms\gui_main_1.py" />
-    <Compile Include="app\config\configtools.py" />
     <Compile Include="app\forms\gui_mp_meas.py">
       <SubType>Code</SubType>
     </Compile>
@@ -44,15 +41,26 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="app\config\" />
+    <Folder Include="app\config\__pycache__\" />
     <Folder Include="app\forms\" />
     <Folder Include="app\forms\__pycache__\" />
     <Folder Include="app\core\" />
+    <Folder Include="app\images\" />
     <Folder Include="app\utils\" />
     <Folder Include="app\" />
+    <Folder Include="data\" />
+    <Folder Include="data\mp-meas\" />
+    <Folder Include="data\mp-meas\v2\" />
+    <Folder Include="data\mp-meas\v1\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\config\__pycache__\configtools.cpython-36.pyc" />
+    <Content Include="app\config\__pycache__\global_settings.cpython-36.pyc" />
+    <Content Include="app\config\__pycache__\__init__.cpython-36.pyc" />
     <Content Include="app\forms\__pycache__\gui_main.cpython-36.pyc" />
     <Content Include="app\forms\__pycache__\__init__.cpython-36.pyc" />
+    <Content Include="app\images\cover_mp_meas.jpg" />
+    <Content Include="app\images\Logo.png" />
     <Content Include="startup.ini" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

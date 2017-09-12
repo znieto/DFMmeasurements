@@ -18,3 +18,11 @@ CONFIG = None
 
 # Default ini path
 DEFAULT_CONFIG_PATH = 'startup.ini'
+
+ROOT_DIR = None
+
+# Default images path relative to the application main started script.
+DEFAULT_RELATIVE_PATH = 'app\\images'
+
+# images path. This variable is initialized on main.py
+IMAGE_PATH = None

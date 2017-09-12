@@ -1,13 +1,13 @@
 import sys
 import importlib
 import app.config.configtools as ct
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QHBoxLayout, QGroupBox, QDialog, QVBoxLayout, QGridLayout
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QHBoxLayout, QGroupBox, QVBoxLayout, QGridLayout, QVBoxLayout
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
 from . import gui_mp_meas
 from functools import partial
     
-class gui_main(QDialog):
+class gui_main(QWidget):
     
     @pyqtSlot()
     def on_click(self, nameWindow):
@@ -25,20 +25,22 @@ class gui_main(QDialog):
         self.title = 'DFM Measurements Software'
         self.left = 150
         self.top = 150
-        self.width = 320
-        self.height = 100
+        self.width = 620
+        self.height = 200
+        self.showMaximized()
         self.initUI()
  
     def initUI(self):
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
+        self.setStyleSheet("background-color: white")
  
     def createButton(self,buttonSettings, aLayout, row, column):
         Title = buttonSettings['title']
         onClickWindow= buttonSettings['windowname']
         ToolTip = buttonSettings['tooltip']
         theButton = QPushButton(Title, self)
-        theButton.setToolTip('This is an example button')
+        theButton.setToolTip(ToolTip)
         theButton.clicked.connect( partial( self.on_click, nameWindow=onClickWindow))
         
         aLayout.addWidget(theButton,row,column) 
@@ -62,6 +64,8 @@ class gui_main(QDialog):
         windowLayout = QVBoxLayout()
         windowLayout.addWidget(self.horizontalGroupBox)
         self.setLayout(windowLayout)
+        
+
 
     def mainWindow(configfile):
             app = QApplication(sys.argv)
