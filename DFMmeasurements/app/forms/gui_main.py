@@ -4,7 +4,6 @@ import app.config.configtools as ct
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QHBoxLayout, QGroupBox, QVBoxLayout, QGridLayout, QVBoxLayout
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
-from . import gui_mp_meas
 from functools import partial
     
 class gui_main(QWidget):
