@@ -4,11 +4,11 @@ from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QGroupBox, QDial
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import pyqtSlot, Qt
 from PyQt5 import QtCore, QtGui, QtWidgets
+import app.config.global_settings as g
+import os
 
 class gui_mp_meas(QDialog):
     def addImage(self,label, strImage):
-        import app.config.global_settings as g
-        import os
         pathimg = os.path.join(g.IMAGE_PATH, strImage)
         pixmap = QPixmap(pathimg)
         label.setPixmap(pixmap)
@@ -17,6 +17,10 @@ class gui_mp_meas(QDialog):
     def setupUi(self):
         self.setObjectName("gui_mp_meas")
         self.resize(822, 730)
+
+        #set Icon Window
+        pathimg = os.path.join(g.IMAGE_PATH, 'icon.png')
+        self.setWindowIcon(QtGui.QIcon(pathimg))
 
         self.lblDFMLogo = QtWidgets.QLabel(self)
         self.lblDFMLogo.setObjectName("lblDFMLogo")        
@@ -37,8 +41,8 @@ class gui_mp_meas(QDialog):
         self.groupBox.setObjectName("groupBox")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.groupBox)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.label = QtWidgets.QLabel(self.groupBox)
-        self.label.setMaximumSize(QtCore.QSize(16777215, 20))
+        self.labelAnalyzer = QtWidgets.QLabel(self.groupBox)
+        self.labelAnalyzer.setMaximumSize(QtCore.QSize(16777215, 20))
         font = QtGui.QFont()
         font.setPointSize(10)
         font.setBold(True)
@@ -46,10 +50,10 @@ class gui_mp_meas(QDialog):
         font.setStrikeOut(False)
         font.setKerning(False)
         font.setStyleStrategy(QtGui.QFont.PreferDefault)
-        self.label.setFont(font)
-        self.label.setAlignment(QtCore.Qt.AlignCenter)
-        self.label.setObjectName("label")
-        self.verticalLayout.addWidget(self.label)
+        self.labelAnalyzer.setFont(font)
+        self.labelAnalyzer.setAlignment(QtCore.Qt.AlignCenter)
+        self.labelAnalyzer.setObjectName("labelAnalyzer")
+        self.verticalLayout.addWidget(self.labelAnalyzer)
         self.frame = QtWidgets.QFrame(self.groupBox)
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -58,19 +62,27 @@ class gui_mp_meas(QDialog):
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.groupBoxAnalyzer = QtWidgets.QGroupBox(self.frame)
         self.groupBoxAnalyzer.setObjectName("groupBoxAnalyzer")
+        
         #region Radio Buttons Pulse
         self.radioPulse_1 = QtWidgets.QRadioButton(self.groupBoxAnalyzer)
         self.radioPulse_1.setGeometry(QtCore.QRect(90, 20, 121, 20))
         self.radioPulse_1.setObjectName("radioPulse_1")
+        self.radioPulse_1.toggled.connect(self.radioPulseClicked)
+
         self.radioPulse_3 = QtWidgets.QRadioButton(self.groupBoxAnalyzer)
         self.radioPulse_3.setGeometry(QtCore.QRect(90, 60, 171, 20))
         self.radioPulse_3.setObjectName("radioPulse_3")
+        self.radioPulse_3.toggled.connect(self.radioPulseClicked)
+
         self.radioPulse_2 = QtWidgets.QRadioButton(self.groupBoxAnalyzer)
         self.radioPulse_2.setGeometry(QtCore.QRect(90, 40, 111, 20))
         self.radioPulse_2.setObjectName("radioPulse_2")
+        self.radioPulse_2.toggled.connect(self.radioPulseClicked)
+
         self.radioPulse_4 = QtWidgets.QRadioButton(self.groupBoxAnalyzer)
         self.radioPulse_4.setGeometry(QtCore.QRect(90, 80, 141, 20))
         self.radioPulse_4.setObjectName("radioPulse_4")
+        self.radioPulse_4.toggled.connect(self.radioPulseClicked)
         #endregion
 
         self.horizontalLayout.addWidget(self.groupBoxAnalyzer)
@@ -85,9 +97,11 @@ class gui_mp_meas(QDialog):
         sizePolicy.setHeightForWidth(self.radioBK.sizePolicy().hasHeightForWidth())
         self.radioBK.setSizePolicy(sizePolicy)
         self.radioBK.setObjectName("radioBK")
+        self.radioBK.toggled.connect(self.radioSetupClicked)
         self.radioATCal = QtWidgets.QRadioButton(self.groupBoxSetup)
         self.radioATCal.setGeometry(QtCore.QRect(50, 40, 101, 20))
         self.radioATCal.setObjectName("radioATCal")
+        self.radioATCal.toggled.connect(self.radioSetupClicked)
         self.horizontalLayout.addWidget(self.groupBoxSetup)
         self.verticalLayout.addWidget(self.frame)
         self.buttonBox = QtWidgets.QDialogButtonBox(self.groupBox)
@@ -122,13 +136,24 @@ class gui_mp_meas(QDialog):
          #partial( self.on_click, nameWindow=onClickWindow)
         self.close
 
+    def radioPulseClicked(self):
+        self.changeColor(False,self.groupBoxAnalyzer)
+        self.labelAnalyzer.setText("")
+        self.labelAnalyzer.setStyleSheet("")
+
+    def radioSetupClicked(self):
+        self.changeColor(False,self.groupBoxSetup)
+        self.labelAnalyzer.setText("")
+        self.labelAnalyzer.setStyleSheet("")
+
+
     def retranslateUi(self, gui_mp_meas):
         _translate = QtCore.QCoreApplication.translate
         gui_mp_meas.setWindowTitle(_translate("gui_mp_meas", "Dialog"))
         #self.lblDFMLogo.setText(_translate("gui_mp_meas", "Logo DFM"))
         self.lblMainTitle.setText(_translate("gui_mp_meas", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Pressure reciprocity measurement program</span></p><p align=\"center\"><span style=\" font-size:14pt;\">Version 3.0 - 2017-09-22</span></p></body></html>"))
         self.groupBox.setTitle(_translate("gui_mp_meas", "System Setup"))
-        self.label.setText(_translate("gui_mp_meas", "<html><head/><body><p align=\"center\"><span style=\" font-size:10pt; font-weight:600;\">NB! Select Analyzer first</span></p></body></html>"))
+        #self.labelAnalyzer.setText(_translate("gui_mp_meas", "<html><head/><body><p align=\"center\"><span style=\" font-size:10pt; font-weight:600;\">NB! Select Analyzer first</span></p></body></html>"))
         self.groupBoxAnalyzer.setTitle(_translate("gui_mp_meas", "Pulse Analyzer"))
         self.radioPulse_1.setText(_translate("gui_mp_meas", "&3560C-25 kHz"))
         self.radioPulse_3.setText(_translate("gui_mp_meas", "&3560D-Slot3-100 kHz"))
@@ -147,11 +172,34 @@ class gui_mp_meas(QDialog):
                  iScheck=True
                  break
 
+        _translate = QtCore.QCoreApplication.translate
         if not iScheck:
-            changeColor('red')
+            self.labelAnalyzer.setStyleSheet("""
+                         background-color: yellow;
+                        """)        
+            self.labelAnalyzer.setText(_translate("gui_mp_meas", "<html><head/><body><p align=\"center\"><span style=\" font-size:10pt; font-weight:600;\">NB! Select Analyzer first</span></p></body></html>"))
+            self.changeColor(True,self.groupBoxAnalyzer)
 
-    def changeColor(color):
-        print('color changed')
+        if not (self.radioATCal.isChecked() or self.radioBK.isChecked()):
+            self.labelAnalyzer.setStyleSheet("""
+                         background-color: yellow;
+                        """)        
+            self.labelAnalyzer.setText(_translate("gui_mp_meas", "<html><head/><body><p align=\"center\"><span style=\" font-size:10pt; font-weight:600;\">NB! Select AT Cal or BK 5998 </span></p></body></html>"))
+            self.changeColor(True,self.groupBoxSetup)
+
+    def changeColor(self, changeColor, groupBox):
+        if changeColor:                        
+            groupBox.setStyleSheet("""
+            QRadioButton::indicator::unchecked{ 
+                border: 1px solid; 
+                border-color: rgb(132,132,132);
+                border-radius: 5px;
+                background-color: red; 
+                width: 11px; 
+                height: 11px; 
+            }""")
+        else:
+            groupBox.setStyleSheet("")
 
         
 
@@ -164,7 +212,12 @@ class gui_mp_meas(QDialog):
         | Qt.WindowMinimizeButtonHint 
         | Qt.WindowMaximizeButtonHint);
           # Set the stylesheet
-        self.setStyleSheet("background-color: white")
+           #background-color: white
+        self.setStyleSheet("""
+        QDialog {
+        background-color: white;
+        }       
+        """)
 
         # Add labels and buttons to layout
         self.setupUi()

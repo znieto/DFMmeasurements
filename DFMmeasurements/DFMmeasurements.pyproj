@@ -60,6 +60,7 @@
     <Content Include="app\forms\__pycache__\gui_main.cpython-36.pyc" />
     <Content Include="app\forms\__pycache__\__init__.cpython-36.pyc" />
     <Content Include="app\images\cover_mp_meas.jpg" />
+    <Content Include="app\images\icon.png" />
     <Content Include="app\images\Logo.png" />
     <Content Include="startup.ini" />
   </ItemGroup>
