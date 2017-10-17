@@ -9,13 +9,22 @@ from functools import partial
 class gui_main(QWidget):
     
     @pyqtSlot()
-    def on_click(self, nameWindow):
-        #import dynamic a window class
-        mWindow=importlib.import_module('app.forms.'+nameWindow)
-        #create an object of type nameWindow
-        self._new_window = eval('mWindow.'+nameWindow+'()')
-        #show the window
-        self._new_window.show()
+    def on_click(self, nameWindow, newSetup,wizard):
+        #check whether is a new installation
+        #if new installation run wizzard
+        #else run as usual.
+
+        if newSetup:
+            #run wizard
+            print('wizard')
+        else:
+            #import dynamic a window class
+            mWindow=importlib.import_module('app.forms.'+nameWindow)
+            #create an object of type nameWindow
+            self._new_window = eval('mWindow.'+nameWindow+'()')
+            #show the window
+            self._new_window.show()
+
         return;
  
     def __init__(self):
@@ -38,9 +47,11 @@ class gui_main(QWidget):
         Title = buttonSettings['title']
         onClickWindow= buttonSettings['windowname']
         ToolTip = buttonSettings['tooltip']
+        newSetup = buttonSettings['newsetup']
+        wizard = buttonSettings['wizard'] if 'wizard' in buttonSettings else None
         theButton = QPushButton(Title, self)
         theButton.setToolTip(ToolTip)
-        theButton.clicked.connect( partial( self.on_click, nameWindow=onClickWindow))
+        theButton.clicked.connect( partial( self.on_click, nameWindow=onClickWindow,newSetup=newSetup,wizard= wizard))
         
         aLayout.addWidget(theButton,row,column) 
 

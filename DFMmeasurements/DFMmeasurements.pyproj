@@ -24,6 +24,9 @@
     <Compile Include="app\config\configtools.py" />
     <Compile Include="app\config\global_settings.py" />
     <Compile Include="app\config\__init__.py" />
+    <Compile Include="app\core\MeasurementTools.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\core\__init__.py" />
     <Compile Include="app\forms\bto.py" />
     <Compile Include="app\forms\gui_main.py" />
@@ -35,7 +38,17 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="app\forms\__init__.py" />
+    <Compile Include="app\utils\math.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\utils\__init__.py" />
+    <Compile Include="app\wizards\openfile_dir.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\wizards\wizard_mp_meas.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\wizards\__init__.py" />
     <Compile Include="app\__init__.py" />
     <Compile Include="main.py" />
   </ItemGroup>
@@ -46,12 +59,14 @@
     <Folder Include="app\forms\__pycache__\" />
     <Folder Include="app\core\" />
     <Folder Include="app\images\" />
+    <Folder Include="app\wizards\" />
     <Folder Include="app\utils\" />
     <Folder Include="app\" />
     <Folder Include="data\" />
     <Folder Include="data\mp-meas\" />
     <Folder Include="data\mp-meas\v2\" />
     <Folder Include="data\mp-meas\v1\" />
+    <Folder Include="ReferenceFiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\config\__pycache__\configtools.cpython-36.pyc" />

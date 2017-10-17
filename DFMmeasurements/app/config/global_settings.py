@@ -26,3 +26,18 @@ DEFAULT_RELATIVE_PATH = 'app\\images'
 
 # images path. This variable is initialized on main.py
 IMAGE_PATH = None
+
+# Mp Calculation directories
+
+#Measurement file directory
+M_SREFFILEPATH = None
+
+#Output directory		
+M_SSTOREPATH = None
+
+#Temporary directory	
+M_STEMPPATH = None
+
+#Database directory
+M_SDATABASE = None
+

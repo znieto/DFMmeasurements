@@ -1,10 +1,10 @@
 import sys
-#import PyQt5.QtWidgets
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QGroupBox, QDialog, QGridLayout, QLabel, QMenuBar 
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import pyqtSlot, Qt
 from PyQt5 import QtCore, QtGui, QtWidgets
 import app.config.global_settings as g
+import app.core.MeasurementTools as mt
 import os
 
 class gui_mp_meas(QDialog):
@@ -28,6 +28,19 @@ class gui_mp_meas(QDialog):
 
         self.lblMainTitle = QtWidgets.QLabel(self)
         self.lblMainTitle.setObjectName("lblMainTitle")
+
+        # Set the stylesheet        
+        self.setStyleSheet("""
+        QDialog {
+        background-color: white;
+        }       
+        """)
+        # Set window flags: show button to min or max window, close, etc.
+        self.setWindowFlags(Qt.Window
+        | Qt.WindowCloseButtonHint
+        | Qt.WindowMinimizeButtonHint 
+        | Qt.WindowMaximizeButtonHint);
+
         #region Definition Main Vertical layout
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
@@ -199,34 +212,24 @@ class gui_mp_meas(QDialog):
                 height: 11px; 
             }""")
         else:
-            groupBox.setStyleSheet("")
+            groupBox.setStyleSheet("")     
 
-        
-
-
-    def __init__(self):
-        super().__init__()
-        self._new_window = None
-        self.setWindowFlags(Qt.Window
-        | Qt.WindowCloseButtonHint
-        | Qt.WindowMinimizeButtonHint 
-        | Qt.WindowMaximizeButtonHint);
-          # Set the stylesheet
-           #background-color: white
-        self.setStyleSheet("""
-        QDialog {
-        background-color: white;
-        }       
-        """)
-
-        # Add labels and buttons to layout
-        self.setupUi()
-        # help menu
+    def helpMenu(self):
         self.myQMenuBar = QMenuBar(self)
         exitMenu = self.myQMenuBar.addMenu('File')
         exitAction = QtWidgets.QAction('Exit', self)        
         exitAction.triggered.connect(self.close)
         exitMenu.addAction(exitAction)
+
+
+    def __init__(self):
+        super().__init__()
+        self._new_window = None
+        # Add labels and buttons to layout
+        self.setupUi()
+        self.helpMenu()
+        mt.MeasurementTools.LoadWorkingDirectories("mp_meas")
+       
 
 
 

@@ -51,3 +51,10 @@ class AppConfig(object):
                 dict1[option] = None
         return dict1
 
+    def getOption(section, option):
+        try:
+            value = config.get(section, "DATABASE")
+        except:
+            print("exception on %s!" % option)
+            value = None
+        return value
