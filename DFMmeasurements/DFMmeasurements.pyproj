@@ -66,7 +66,8 @@
     <Folder Include="data\mp-meas\" />
     <Folder Include="data\mp-meas\v2\" />
     <Folder Include="data\mp-meas\v1\" />
-    <Folder Include="ReferenceFiles\" />
+    <Folder Include="calibrations\" />
+    <Folder Include="referencefiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\config\__pycache__\configtools.cpython-36.pyc" />

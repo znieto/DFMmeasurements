@@ -2,7 +2,13 @@ from PyQt5.QtWidgets import QApplication , QWizard , QWizardPage, QLineEdit, QGr
 from PyQt5.QtWidgets import QLabel , QVBoxLayout, QGridLayout, QPushButton, QWidget
 from PyQt5.QtCore import QRect, Qt
 from PyQt5 import QtCore, QtGui, QtWidgets
-  
+import sys
+import os
+import app.config.configtools as ct
+import app.config.global_settings as gs 
+
+
+
 def createIntroPage():
     page = QWizardPage()
     page.setTitle("Introduction")
@@ -90,25 +96,20 @@ def createConclusionPage():
   
     return page
   
-def retranslateUi(page):
-    _translate = QtCore.QCoreApplication.translate
-
-    page.groupBox.setTitle(_translate("SetupDir", "Select the following directories"))
-    #wizard.label_Output.setText(_translate("SetupDir", "Output"))
-    #wizard.browseReference.setText(_translate("SetupDir", "Browse"))
-    #wizard.label_6.setText(_translate("SetupDir", "Creator:"))
-    #wizard.labelDatabase.setText(_translate("SetupDir", "Database "))
-    #wizard.labelReference.setText(_translate("SetupDir", "Reference "))
-    #wizard.browseDestination.setText(_translate("SetupDir", "Browse"))
-    #wizard.announceUrl.setText(_translate("SetupDir", "<none>"))
-    #wizard.creatorLabel.setText(_translate("SetupDir", "<none>"))
 
 if __name__ == '__main__':
   
-    import sys
+    
   
+    #region Debug
+    gs.ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+    gs.DEFAULT_MEASUREMENT_PATH = os.path.join(gs.ROOT_DIR,gs.DEFAULT_MEASUREMENT_PATH)
+    #endregion
+    section= "PressureReciprocity"
+    measurement_path= os.path.join(gs.DEFAULT_MEASUREMENT_PATH, section)
     app = QApplication(sys.argv)
-  
+    config= ct.AppConfig(gs.DEFAULT_CONFIG_PATH)    
+    config.loadWorkingDirectories(section, measurement_path)
     wizard = QWizard()
     wizard.resize(640, 600)
     wizard.addPage(createIntroPage())

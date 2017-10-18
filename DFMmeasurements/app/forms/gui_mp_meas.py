@@ -228,7 +228,6 @@ class gui_mp_meas(QDialog):
         # Add labels and buttons to layout
         self.setupUi()
         self.helpMenu()
-        mt.MeasurementTools.LoadWorkingDirectories("mp_meas")
        
 
 

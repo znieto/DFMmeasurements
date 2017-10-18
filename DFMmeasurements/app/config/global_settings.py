@@ -19,25 +19,16 @@ CONFIG = None
 # Default ini path
 DEFAULT_CONFIG_PATH = 'startup.ini'
 
+#Root path of the application. I will be set when application starts
 ROOT_DIR = None
 
 # Default images path relative to the application main started script.
-DEFAULT_RELATIVE_PATH = 'app\\images'
+DEFAULT_IMAGES_PATH = 'app\\images'
 
 # images path. This variable is initialized on main.py
 IMAGE_PATH = None
 
 # Mp Calculation directories
+DEFAULT_MEASUREMENT_PATH = 'measurements'
 
-#Measurement file directory
-M_SREFFILEPATH = None
-
-#Output directory		
-M_SSTOREPATH = None
-
-#Temporary directory	
-M_STEMPPATH = None
-
-#Database directory
-M_SDATABASE = None
 
