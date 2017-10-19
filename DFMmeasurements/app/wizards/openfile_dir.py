@@ -2,7 +2,7 @@ import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QInputDialog, QLineEdit, QFileDialog
 from PyQt5.QtGui import QIcon
  
-class App(QWidget):
+class browserfile(QWidget):
  
     def __init__(self):
         super().__init__()
@@ -17,10 +17,10 @@ class App(QWidget):
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
  
-        self.openFileNameDialog()
-        self.openFileNamesDialog()
-        self.saveFileDialog()
- 
+        #self.openFileNameDialog()
+        #self.openFileNamesDialog()
+        #self.saveFileDialog()
+        self.openFolderDialog()
         self.show()
  
     def openFileNameDialog(self):    
@@ -34,9 +34,17 @@ class App(QWidget):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
         files, _ = QFileDialog.getOpenFileNames(self,"QFileDialog.getOpenFileNames()", "","All Files (*);;Python Files (*.py)", options=options)
+
         if files:
             print(files)
  
+    def openFolderDialog(self):    
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        dir = QFileDialog.getExistingDirectory(self, "Open Directory",
+                                                "/home",
+                                                QFileDialog.ShowDirsOnly
+                                                | QFileDialog.DontResolveSymlinks)
     def saveFileDialog(self):    
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
@@ -44,7 +52,4 @@ class App(QWidget):
         if fileName:
             print(fileName)
  
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ex = App()
-    sys.exit(app.exec_())
+

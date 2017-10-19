@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QGroupBox, QDialog, QGridLayout, QLabel, QMenuBar 
+from PyQt5.QtWidgets import QApplication, QWidget,  QGroupBox, QDialog, QGridLayout, QLabel, QMenuBar 
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import pyqtSlot, Qt
 from PyQt5 import QtCore, QtGui, QtWidgets

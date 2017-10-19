@@ -5,7 +5,8 @@ from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QHBoxLayout, QGr
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot
 from functools import partial
-    
+from app.utils import stringtools   
+
 class gui_main(QWidget):
     
     @pyqtSlot()
@@ -47,7 +48,7 @@ class gui_main(QWidget):
         Title = buttonSettings['title']
         onClickWindow= buttonSettings['windowname']
         ToolTip = buttonSettings['tooltip']
-        newSetup = buttonSettings['newsetup']
+        newSetup = stringtools.str_to_bool(buttonSettings['newsetup'])
         wizard = buttonSettings['wizard'] if 'wizard' in buttonSettings else None
         theButton = QPushButton(Title, self)
         theButton.setToolTip(ToolTip)

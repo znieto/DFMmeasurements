@@ -68,29 +68,9 @@ class AppConfig(object):
 
     def getOption(self,section, option):
         try:
-            value = config.get(section, option)
+            value = self.Config.get(section, option)
         except:
             print("exception on %s!" % option)
             value = ''
         return value
 
-    def loadWorkingDirectories(self,section, filesdirectory):
-
-        ORG_REF_FILE_PATH = self.getOption(section,"REF_FILE_PATH")
-        REF_FILE_PATH = self.getAbsoluteDir(ORG_REF_FILE_PATH,filesdirectory)
-        ##if directories are no the same, then copy procesed on ini.
-        #if ORG_REF_FILE_PATH!=REF_FILE_PATH:
-        #   Config.set(section, "REF_FILE_PATH", REF_FILE_PATH)
-
-
-    def getAbsoluteDir(self,directory, rootdirectory):
-        import os
-
-        #check that directory string is not empty.
-        if not directory:
-            #is abasulte path? if not add root dir
-            isabs= os.path.isabs(directory)
-            if not isabs:                
-                directory =  os.path.join(rootdirectory, directory)
-
-        return directory
