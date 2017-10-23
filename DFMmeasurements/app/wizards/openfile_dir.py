@@ -3,7 +3,8 @@ from PyQt5.QtWidgets import QApplication, QWidget, QInputDialog, QLineEdit, QFil
 from PyQt5.QtGui import QIcon
  
 class browserfile(QWidget):
- 
+    currentdir= None
+
     def __init__(self):
         super().__init__()
         self.title = 'PyQt5 file dialogs - pythonspot.com'
@@ -20,7 +21,7 @@ class browserfile(QWidget):
         #self.openFileNameDialog()
         #self.openFileNamesDialog()
         #self.saveFileDialog()
-        self.openFolderDialog()
+        #self.openFolderDialog()
         self.show()
  
     def openFileNameDialog(self):    
@@ -41,10 +42,13 @@ class browserfile(QWidget):
     def openFolderDialog(self):    
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        dir = QFileDialog.getExistingDirectory(self, "Open Directory",
+        self.currentdir = QFileDialog.getExistingDirectory(self, "Open Directory",
                                                 "/home",
                                                 QFileDialog.ShowDirsOnly
                                                 | QFileDialog.DontResolveSymlinks)
+        if self.currentdir:
+            print(self.currentdir)
+        
     def saveFileDialog(self):    
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog

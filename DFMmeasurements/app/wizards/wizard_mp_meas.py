@@ -8,10 +8,18 @@ import app.config.configtools as ct
 import app.config.global_settings as gs 
 
 class Directories:
-      ref_file_path=None
-      temp_path= None
-      db_calibrations_path= None
+      ref_file_path = None
+      temp_path = None
+      db_calibrations_path = None
       output_path = None
+
+
+titleRegistrationPage = "Setup Directories"
+errorRegistrationPage = None
+measureDirs = Directories()
+
+
+
 
 def createIntroPage():
     page = QWizardPage()
@@ -30,8 +38,7 @@ def createIntroPage():
   
 def createRegistrationPage(measureDirs):
     page = QWizardPage()
-    page.setTitle("Setup Directories")
-  
+    page.setTitle(titleRegistrationPage)
     groupBox = QGroupBox(page)
     #groupBox.setGeometry(QRect(-10, 8, 631, 400))
     groupBox.setObjectName("groupBox")
@@ -52,7 +59,7 @@ def createRegistrationPage(measureDirs):
     browseReference.setDefault(True)
     browseReference.setObjectName("browseReference")
     browseReference.setText("Browse")
-    browseReference.clicked.connect(lambda: openFileBrowser(textbox=browseReference))
+    browseReference.clicked.connect(lambda: openFileBrowser(textbox=refernceDir))
       
     gridlayout.addWidget(browseReference, 0, 2)
     #endregion
@@ -69,10 +76,11 @@ def createRegistrationPage(measureDirs):
     browseDatabase.setDefault(True)
     browseDatabase.setObjectName("browseReference")
     browseDatabase.setText("Browse")
+    browseDatabase.clicked.connect(lambda: openFileBrowser(textbox=databaseDir))
     gridlayout.addWidget(browseDatabase, 1, 2)
     #endregion
 
-    #region Output Results    
+    #region Output Results
     labelOutput = QtWidgets.QLabel(groupBox)
     labelOutput.setText("Output")
     gridlayout.addWidget(labelOutput, 2, 0)
@@ -84,6 +92,7 @@ def createRegistrationPage(measureDirs):
     browseDestination = QtWidgets.QPushButton(groupBox)
     browseDestination.setObjectName("browseDestination")
     browseDestination.setText("Browse")
+    browseDestination.clicked.connect(lambda: openFileBrowser(textbox=destinationFolder))
     gridlayout.addWidget(browseDestination, 2, 2)
     #endregion
     widget = QWidget(groupBox)
@@ -94,11 +103,9 @@ def createRegistrationPage(measureDirs):
   
 def createConclusionPage():
     page = QWizardPage()
-    page.setTitle("Conclusion")
-  
+    page.setTitle("Conclusion")  
     label = QLabel("You are now successfully registered. Have a nice day!")
     label.setWordWrap(True)
-  
     layout = QVBoxLayout()
     layout.addWidget(label)
     page.setLayout(layout)
@@ -112,12 +119,31 @@ def loadWorkingDirectories(config,section, filesdirectory, measureDirs):
     measureDirs.db_calibrations_path = getAbsoluteDir(config.getOption(section,'DB_CALIBRATIONS_PATH'),filesdirectory)
     measureDirs.output_path = getAbsoluteDir(config.getOption(section,'OUTPUT_PATH'),filesdirectory)
 
+def createDirectories():
+    import app.utils.oitools as iotools
+    success= iotools.createDir(measureDirs.ref_file_path) and iotools.createDir(measureDirs.db_calibrations_path) and iotools.createDir(measureDirs.output_path)
+    return success
+
+def updateIniDir():
+    print('update')
+
+def next():
+    if wizard.currentPage().isFinalPage():
+       #Create directories
+       if createDirectories():
+           #if not error, update ini
+           updateIniDir()
+       else:
+           print ("error")
+
+
 def openFileBrowser(textbox):
     import app.wizards.openfile_dir as od
 
     newWindow = od.browserfile()
+    newWindow.openFolderDialog()
     newWindow.show()
-    print('here')
+    textbox.setText(newWindow.currentdir)
     
 
 
@@ -126,10 +152,10 @@ def getAbsoluteDir(directory, rootdirectory):
 
         #check that directory string is not empty.
         if directory:
-            #is abasulte path? if not add root dir
-            isabs= os.path.isabs(directory)
+            #is abasulte path?  if not add root dir
+            isabs = os.path.isabs(directory)
             if not isabs:                
-                directory =  os.path.join(rootdirectory, directory)
+                directory = os.path.join(rootdirectory, directory)
 
         return directory  
 
@@ -138,15 +164,18 @@ if __name__ == '__main__':
     
   
     #region Debug
+    import logging
+    logging.basicConfig(filename='myapp.log', level=logging.INFO)
+    logging.info('Started')
     gs.ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
     gs.DEFAULT_MEASUREMENT_PATH = os.path.join(gs.ROOT_DIR,gs.DEFAULT_MEASUREMENT_PATH)
-    section= "PressureReciprocity"
+    section = "PressureReciprocity"
     #endregion
 
-    measureDirs= Directories()
-    measurement_path= os.path.join(gs.DEFAULT_MEASUREMENT_PATH, section)
+    
+    measurement_path = os.path.join(gs.DEFAULT_MEASUREMENT_PATH, section)
     app = QApplication(sys.argv)
-    config= ct.AppConfig(gs.DEFAULT_CONFIG_PATH)    
+    config = ct.AppConfig(gs.DEFAULT_CONFIG_PATH)    
     loadWorkingDirectories(config,section, measurement_path,measureDirs)
     wizard = QWizard()
     wizard.resize(640, 600)
@@ -154,7 +183,10 @@ if __name__ == '__main__':
     wizard.addPage(createRegistrationPage(measureDirs))
     wizard.addPage(createConclusionPage())
   
+    wizard.button(QWizard.NextButton).clicked.connect(next)
+    #wizard.button(QtGui.QWizard.FinishButton).clicked.connect(finishprint)
+
     wizard.setWindowTitle("Trivial Wizard")
     wizard.show()
   
-    sys.exit(wizard.exec_())
+    wizard.exec_()

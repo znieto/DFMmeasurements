@@ -40,6 +40,9 @@
     <Compile Include="app\forms\__init__.py" />
     <Compile Include="app\utils\importdir.py" />
     <Compile Include="app\utils\math.py" />
+    <Compile Include="app\utils\oitools.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\utils\stringtools.py" />
     <Compile Include="app\utils\__init__.py" />
     <Compile Include="app\wizards\openfile_dir.py">
