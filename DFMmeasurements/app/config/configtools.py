@@ -1,5 +1,6 @@
 import pathlib
 import configparser
+import logging
 
 
 class AppConfig(object):
@@ -19,42 +20,48 @@ class AppConfig(object):
         else:            
             print('Init file does not exist under this directory', pathToFile)
 
+    def reload(self):
+            self.Config = configparser.SafeConfigParser()
+            self.Config.read(self.path)
+
     def save_option(self, section, option, value):
             """
             Write the specified Section.Option to the config file specified by path.
             Replace any previous value.  If the path doesn't exist, create it.
             Also add the option the the in-memory config.
             """
+            config=self.Config
             if not config.has_section(section):
                 config.add_section(section)
             config.set(section, option, value)
-            fp = open(path, 'w')
+            fp = open(self.path, 'w')
             config.write(fp)
             fp.close()
-            if not self.has_section(section):
-                self.add_section(section)
-            self.set(section, option, value)
-
-    def save_option(self, path, section, option, value):
-            """
-            Write the specified Section.Option to the config file specified by path.
-            Replace any previous value.  If the path doesn't exist, create it.
-            Also add the option the the in-memory config.
-            """
-            config = ConfigParser.SafeConfigParser()
-            config.read(path)
             if not config.has_section(section):
                 config.add_section(section)
             config.set(section, option, value)
-            fp = open(path, 'w')
-            config.write(fp)
-            fp.close()
-            if not self.has_section(section):
-                self.add_section(section)
-            self.set(section, option, value)
 
-    def configSectionMap(section,Config):
+    #def save_option(self, path, section, option, value):
+    #        """
+    #        Write the specified Section.Option to the config file specified by path.
+    #        Replace any previous value.  If the path doesn't exist, create it.
+    #        Also add the option the the in-memory config.
+    #        """
+    #        config = ConfigParser.SafeConfigParser()
+    #        config.read(path)
+    #        if not config.has_section(section):
+    #            config.add_section(section)
+    #        config.set(section, option, value)
+    #        fp = open(path, 'w')
+    #        config.write(fp)
+    #        fp.close()
+    #        if not self.has_section(section):
+    #            self.add_section(section)
+    #        self.set(section, option, value)
+
+    def configSectionMap(self,section):
         dict1 = {}
+        Config=self.Config
         options = Config.options(section)
         for option in options:
             try:
@@ -62,7 +69,8 @@ class AppConfig(object):
                 if dict1[option] == -1:
                     DebugPrint("skip: %s" % option)
             except:
-                print("exception on %s!" % option)
+                e = sys.exc_info()[0]
+                logging.exception(e)
                 dict1[option] = None
         return dict1
 
@@ -70,7 +78,8 @@ class AppConfig(object):
         try:
             value = self.Config.get(section, option)
         except:
-            print("exception on %s!" % option)
+            e = sys.exc_info()[0]
+            logging.exception(e)
             value = ''
         return value
 

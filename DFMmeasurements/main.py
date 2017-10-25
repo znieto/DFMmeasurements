@@ -14,7 +14,7 @@ g.IMAGE_PATH = os.path.join(g.ROOT_DIR, g.DEFAULT_IMAGES_PATH)
 
 g.DEFAULT_MEASUREMENT_PATH = os.path.join(g.ROOT_DIR,g.DEFAULT_MEASUREMENT_PATH)
 config = ct.AppConfig(g.DEFAULT_CONFIG_PATH)
-gui_main.mainWindow(config.Config)
+gui_main.mainWindow(config)
 logging.info('Finished')
 
 

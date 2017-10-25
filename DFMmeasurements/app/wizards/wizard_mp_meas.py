@@ -6,19 +6,24 @@ import sys
 import os
 import app.config.configtools as ct
 import app.config.global_settings as gs 
+import logging
 
 class Directories:
       ref_file_path = None
       temp_path = None
       db_calibrations_path = None
       output_path = None
+      def toArray(self):
+          return [this.ref_file_path,this.temp_path,this.db_calibrations_path,this.output_path]
+      def toDictionary(self):
+          dict1 =  {"ref_file_path" : self.ref_file_path, "temp_path" : self.temp_path, "db_calibrations_path" :self.db_calibrations_path,
+            "output_path":self.output_path}
+          return dict1
 
 
-titleRegistrationPage = "Setup Directories"
-errorRegistrationPage = None
+currentConfigSection = None
 measureDirs = Directories()
-
-
+#wizard = None
 
 
 def createIntroPage():
@@ -36,7 +41,7 @@ def createIntroPage():
     return page
   
   
-def createRegistrationPage(measureDirs):
+def createRegistrationPage(measureDirs, titleRegistrationPage):
     page = QWizardPage()
     page.setTitle(titleRegistrationPage)
     groupBox = QGroupBox(page)
@@ -124,17 +129,32 @@ def createDirectories():
     success= iotools.createDir(measureDirs.ref_file_path) and iotools.createDir(measureDirs.db_calibrations_path) and iotools.createDir(measureDirs.output_path)
     return success
 
-def updateIniDir():
-    print('update')
+def updateIniDir(config,section,dirDictionary):
+    for k, v in dirDictionary.items():
+        config.save_option(section,k,v)
 
-def next():
+
+def next(section,config,wizard):
     if wizard.currentPage().isFinalPage():
        #Create directories
        if createDirectories():
            #if not error, update ini
-           updateIniDir()
+           updateIniDir(config,section,measureDirs.toDictionary())
+           #update newsetup option on ini file
+           config.save_option(section,"NewSetup","False")
        else:
-           print ("error")
+           logging.warning("can update ini file")
+
+#def finish(section,config):
+#    import importlib
+#    nameWindow = config.getOption(section, "windowname")
+#    #import dynamic a window class
+#    mWindow=importlib.import_module('app.forms.'+nameWindow)
+#    #create an object of type nameWindow
+#    _new_window = eval('mWindow.'+nameWindow+'()')
+#    #show the window
+#    _new_window.show()
+
 
 
 def openFileBrowser(textbox):
@@ -165,26 +185,25 @@ if __name__ == '__main__':
   
     #region Debug
     import logging
-    logging.basicConfig(filename='myapp.log', level=logging.INFO)
-    logging.info('Started')
-    gs.ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-    gs.DEFAULT_MEASUREMENT_PATH = os.path.join(gs.ROOT_DIR,gs.DEFAULT_MEASUREMENT_PATH)
-    section = "PressureReciprocity"
+    #logging.basicConfig(filename='myapp.log', level=logging.INFO)
+    #logging.info('Started')
+    #gs.ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+    ##to delete gs.DEFAULT_MEASUREMENT_PATH = os.path.join(gs.ROOT_DIR,gs.DEFAULT_MEASUREMENT_PATH)
+    #currentConfigSection = "PressureReciprocity"
     #endregion
 
-    
-    measurement_path = os.path.join(gs.DEFAULT_MEASUREMENT_PATH, section)
-    app = QApplication(sys.argv)
+def show():
+    measurement_path = os.path.join(gs.DEFAULT_MEASUREMENT_PATH, currentConfigSection)
     config = ct.AppConfig(gs.DEFAULT_CONFIG_PATH)    
-    loadWorkingDirectories(config,section, measurement_path,measureDirs)
+    loadWorkingDirectories(config,currentConfigSection, measurement_path,measureDirs)
     wizard = QWizard()
     wizard.resize(640, 600)
     wizard.addPage(createIntroPage())
-    wizard.addPage(createRegistrationPage(measureDirs))
+    wizard.addPage(createRegistrationPage(measureDirs, currentConfigSection))
     wizard.addPage(createConclusionPage())
   
-    wizard.button(QWizard.NextButton).clicked.connect(next)
-    #wizard.button(QtGui.QWizard.FinishButton).clicked.connect(finishprint)
+    wizard.button(QWizard.NextButton).clicked.connect(lambda: next(currentConfigSection,config,wizard))
+    #wizard.button(QWizard.FinishButton).clicked.connect(lambda: finish(currentConfigSection,config))
 
     wizard.setWindowTitle("Trivial Wizard")
     wizard.show()

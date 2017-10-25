@@ -1,3 +1,5 @@
+
+
 import sys
 import importlib
 import app.config.configtools as ct
@@ -10,21 +12,34 @@ from app.utils import stringtools
 class gui_main(QWidget):
     
     @pyqtSlot()
-    def on_click(self, nameWindow, newSetup,wizard):
+    def on_click(self, section, configWrapper ):
+
+        configWrapper.reload()
+
+        appSettings = configWrapper.configSectionMap(section)
+        newSetup = stringtools.str_to_bool(appSettings['newsetup'])
+
         #check whether is a new installation
         #if new installation run wizzard
         #else run as usual.
 
+        nameWindow = None
+        importModule = None
         if newSetup:
-            #run wizard
-            print('wizard')
+            nameWindow = appSettings['wizard'] if 'wizard' in appSettings else None
+            importModule = 'app.wizards.'+nameWindow
         else:
-            #import dynamic a window class
-            mWindow=importlib.import_module('app.forms.'+nameWindow)
-            #create an object of type nameWindow
-            self._new_window = eval('mWindow.'+nameWindow+'()')
-            #show the window
-            self._new_window.show()
+            nameWindow = appSettings['windowname']
+            importModule = 'app.forms.'+nameWindow
+
+
+        #import dynamic a window class
+        mWindow=importlib.import_module(importModule)
+        #create an object of type nameWindow
+        self._new_window =mWindow if newSetup else eval('mWindow.'+nameWindow+'()')
+        self._new_window.currentConfigSection = section
+        #show the window
+        self._new_window.show()
 
         return;
  
@@ -44,15 +59,13 @@ class gui_main(QWidget):
         self.setGeometry(self.left, self.top, self.width, self.height)
         self.setStyleSheet("background-color: white")
  
-    def createButton(self,buttonSettings, aLayout, row, column):
+    def createButton(self,section,configfile, aLayout, row, column):
+        buttonSettings=configfile.configSectionMap(section)
         Title = buttonSettings['title']
-        onClickWindow= buttonSettings['windowname']
         ToolTip = buttonSettings['tooltip']
-        newSetup = stringtools.str_to_bool(buttonSettings['newsetup'])
-        wizard = buttonSettings['wizard'] if 'wizard' in buttonSettings else None
         theButton = QPushButton(Title, self)
         theButton.setToolTip(ToolTip)
-        theButton.clicked.connect( partial( self.on_click, nameWindow=onClickWindow,newSetup=newSetup,wizard= wizard))
+        theButton.clicked.connect(lambda: self.on_click(section, configfile))
         
         aLayout.addWidget(theButton,row,column) 
 
@@ -65,10 +78,11 @@ class gui_main(QWidget):
         layout.setColumnStretch(2, 4)        
 
         # Get the buttons settings from the ini file.
-        sections = configfile.sections()        
+        sections = configfile.Config.sections()        
         i=0
         for section in sections:
-            self.createButton(ct.AppConfig.configSectionMap(section,configfile),layout,0,i)
+            #self.createButton(ct.AppConfig.configSectionMap(section,configfile),layout,0,i)
+            self.createButton(section,configfile,layout,0,i)
             i+=1
  
         self.horizontalGroupBox.setLayout(layout)

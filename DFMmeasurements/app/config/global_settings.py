@@ -29,6 +29,6 @@ DEFAULT_IMAGES_PATH = 'app\\images'
 IMAGE_PATH = None
 
 # Mp Calculation directories
-DEFAULT_MEASUREMENT_PATH = 'measurements'
+DEFAULT_MEASUREMENT_PATH = 'c:\\measurements'
 
 

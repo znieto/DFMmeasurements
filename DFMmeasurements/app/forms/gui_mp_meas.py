@@ -8,6 +8,7 @@ import app.core.MeasurementTools as mt
 import os
 
 class gui_mp_meas(QDialog):
+    currentConfigSection = None
 
     def addImage(self,label, strImage):
         pathimg = os.path.join(g.IMAGE_PATH, strImage)
