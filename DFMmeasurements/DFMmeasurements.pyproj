@@ -37,6 +37,7 @@
     <Compile Include="app\forms\gui_mpcomp_meas.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="app\forms\gui_mp_meas_setup.py" />
     <Compile Include="app\forms\__init__.py" />
     <Compile Include="app\utils\importdir.py" />
     <Compile Include="app\utils\math.py" />

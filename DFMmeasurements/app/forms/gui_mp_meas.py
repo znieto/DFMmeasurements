@@ -1,10 +1,12 @@
 import sys
+from nt import close
 from PyQt5.QtWidgets import QApplication, QWidget,  QGroupBox, QDialog, QGridLayout, QLabel, QMenuBar 
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import pyqtSlot, Qt
 from PyQt5 import QtCore, QtGui, QtWidgets
 import app.config.global_settings as g
 import app.core.MeasurementTools as mt
+import app.forms.gui_mp_meas_setup as gui_setup
 import os
 
 class gui_mp_meas(QDialog):
@@ -144,7 +146,11 @@ class gui_mp_meas(QDialog):
         return
 
     def accept(self):
-        self.Validation()
+        self.Validation()        
+        self._new_window = gui_setup.gui_mp_meas_setup()
+        #show the window
+        self._new_window.show()
+
         self.close
 
     def buttonClicked(self):
@@ -230,13 +236,6 @@ class gui_mp_meas(QDialog):
         # Add labels and buttons to layout
         self.setupUi()
         self.helpMenu()
-       
-
-
-
-
-
-
 
 if __name__ == '__main__':
     app = QApplication([])
