@@ -7,16 +7,12 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import app.config.global_settings as g
 import app.core.MeasurementTools as mt
 import app.forms.gui_mp_meas_setup as gui_setup
+import app.utils.guitools as guiutil
 import os
 
 class gui_mp_meas(QDialog):
     currentConfigSection = None
 
-    def addImage(self,label, strImage):
-        pathimg = os.path.join(g.IMAGE_PATH, strImage)
-        pixmap = QPixmap(pathimg)
-        label.setPixmap(pixmap)
-        return
     
     def setupUi(self):
         self.setObjectName("gui_mp_meas")
@@ -28,7 +24,7 @@ class gui_mp_meas(QDialog):
 
         self.lblDFMLogo = QtWidgets.QLabel(self)
         self.lblDFMLogo.setObjectName("lblDFMLogo")        
-        self.addImage(self.lblDFMLogo,"logo.png")
+        guiutil.addImage(self.lblDFMLogo,"logo.png")
 
         self.lblMainTitle = QtWidgets.QLabel(self)
         self.lblMainTitle.setObjectName("lblMainTitle")
@@ -135,7 +131,7 @@ class gui_mp_meas(QDialog):
         self.lblDFMImg = QtWidgets.QLabel(self)
         self.lblDFMImg.setObjectName("lblDFMImg")
         self.verticalLayout_2.addWidget(self.lblDFMImg)
-        self.addImage(self.lblDFMImg,"cover_mp_meas.jpg")
+        guiutil.addImage(self.lblDFMImg,"cover_mp_meas.jpg")
         #endregion
 
         self.retranslateUi(self)
@@ -146,16 +142,16 @@ class gui_mp_meas(QDialog):
         return
 
     def accept(self):
-        self.Validation()        
-        self._new_window = gui_setup.gui_mp_meas_setup()
-        #show the window
-        self._new_window.show()
+        if(self.Validation()):
+            self._new_window = gui_setup.gui_mp_meas_setup()
+            #show the window
+            self._new_window.show()
 
-        self.close
+        self.close()
 
     def buttonClicked(self):
          #partial( self.on_click, nameWindow=onClickWindow)
-        self.close
+        self.close()
 
     def radioPulseClicked(self):
         self.changeColor(False,self.groupBoxAnalyzer)
@@ -207,6 +203,8 @@ class gui_mp_meas(QDialog):
                         """)        
             self.labelAnalyzer.setText(_translate("gui_mp_meas", "<html><head/><body><p align=\"center\"><span style=\" font-size:10pt; font-weight:600;\">NB! Select AT Cal or BK 5998 </span></p></body></html>"))
             self.changeColor(True,self.groupBoxSetup)
+        return iScheck
+
 
     def changeColor(self, changeColor, groupBox):
         if changeColor:                        
