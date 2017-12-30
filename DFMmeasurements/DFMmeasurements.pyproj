@@ -24,6 +24,9 @@
     <Compile Include="app\config\configtools.py" />
     <Compile Include="app\config\global_settings.py" />
     <Compile Include="app\config\__init__.py" />
+    <Compile Include="app\core\CalibrationType.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\core\MeasurementTools.py">
       <SubType>Code</SubType>
     </Compile>

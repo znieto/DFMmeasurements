@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from app.core.CalibrationType import Calibration
 from PyQt5.QtWidgets import QDialog, QApplication
 
 class gui_mp_meas_setup(QDialog):
@@ -16,7 +17,7 @@ class gui_mp_meas_setup(QDialog):
         self.lblImage.setObjectName("lblImage")
         self.lblTitle = QtWidgets.QLabel(self)
         self.lblTitle.setGeometry(QtCore.QRect(340, 0, 111, 20))
-        self.lblTitle.setObjectName("lblTitle")
+        self.lblTitle.setObjectName("lblTitle")        
 
         self.retranslateUi(self)
         self.buttonBox.accepted.connect(self.accept)
@@ -26,14 +27,17 @@ class gui_mp_meas_setup(QDialog):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.lblImage.setText(_translate("Dialog", "calibration image"))
         self.lblTitle.setText(_translate("Dialog", "Calibration Setup"))
 
-    def __init__(self):
+    def __init__(self, parent= None, calibration= None):
         super().__init__()
         self._new_window = None
         # Add labels and buttons to layout
-        self.setupUi()
+        self.setupUi()        
+        self.lblImage.setText(calibration.name)
+
+        
+
 
 if __name__ == "__main__":
     app = QApplication([])

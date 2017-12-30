@@ -1,4 +1,5 @@
 import sys
+from app.core.CalibrationType import Calibration
 from nt import close
 from PyQt5.QtWidgets import QApplication, QWidget,  QGroupBox, QDialog, QGridLayout, QLabel, QMenuBar 
 from PyQt5.QtGui import QIcon, QPixmap
@@ -143,7 +144,14 @@ class gui_mp_meas(QDialog):
 
     def accept(self):
         if(self.Validation()):
-            self._new_window = gui_setup.gui_mp_meas_setup()
+            if( self.radioBK.isChecked()) :
+               current_calibration = Calibration.BK_5998;        
+            if(self.radioATCal.isChecked()):
+               current_calibration = Calibration.AT_CAL   
+
+            self._new_window = gui_setup.gui_mp_meas_setup(self,current_calibration  )
+
+     
             #show the window
             self._new_window.show()
 
