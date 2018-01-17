@@ -1,9 +1,12 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.Qt import QPixmap
+from PyQt5.Qt import QSize
 from app.core.CalibrationType import Calibration
 from PyQt5.QtWidgets import QDialog, QApplication
+import app.utils.guitools as guiutil
 
 class gui_mp_meas_setup(QDialog):
-
+    current_calibration =None
     def setupUi(self):
         self.setObjectName("Dialog")
         self.resize(822, 730)
@@ -15,6 +18,16 @@ class gui_mp_meas_setup(QDialog):
         self.lblImage = QtWidgets.QLabel(self)
         self.lblImage.setGeometry(QtCore.QRect(5, 49, 781, 321))
         self.lblImage.setObjectName("lblImage")
+
+        if(self.current_calibration==Calibration.AT_CAL):
+            #image cal     
+            guiutil.addImage(self.lblImage,"MpCal-AT.png")
+        else:
+            #image sjlfj
+            guiutil.addImage(self.lblImage,"MpCal-BK.emf")
+
+
+         
         self.lblTitle = QtWidgets.QLabel(self)
         self.lblTitle.setGeometry(QtCore.QRect(340, 0, 111, 20))
         self.lblTitle.setObjectName("lblTitle")        
@@ -31,11 +44,10 @@ class gui_mp_meas_setup(QDialog):
 
     def __init__(self, parent= None, calibration= None):
         super().__init__()
+        self.current_calibration= calibration
         self._new_window = None
         # Add labels and buttons to layout
         self.setupUi()        
-        self.lblImage.setText(calibration.name)
-
         
 
 
