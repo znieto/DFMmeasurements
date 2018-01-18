@@ -8,25 +8,24 @@ import app.utils.guitools as guiutil
 class gui_mp_meas_setup(QDialog):
     current_calibration =None
     def setupUi(self):
+        width=1100
+        height=730
         self.setObjectName("Dialog")
-        self.resize(822, 730)
+        self.resize(width, 730)
         self.buttonBox = QtWidgets.QDialogButtonBox(self)
         self.buttonBox.setGeometry(QtCore.QRect(640, 680, 156, 23))
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
         self.lblImage = QtWidgets.QLabel(self)
-        self.lblImage.setGeometry(QtCore.QRect(5, 49, 781, 321))
         self.lblImage.setObjectName("lblImage")
 
         if(self.current_calibration==Calibration.AT_CAL):
             #image cal     
-            guiutil.addImage(self.lblImage,"MpCal-AT.png")
+            guiutil.addImageScaled(self.lblImage,"MpCal-AT.png",width-10,height-10)
         else:
             #image sjlfj
             guiutil.addImage(self.lblImage,"MpCal-BK.emf")
-
-
          
         self.lblTitle = QtWidgets.QLabel(self)
         self.lblTitle.setGeometry(QtCore.QRect(340, 0, 111, 20))
