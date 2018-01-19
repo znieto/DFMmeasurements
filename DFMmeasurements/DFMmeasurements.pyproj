@@ -89,6 +89,7 @@
     <Content Include="app\images\icon.png" />
     <Content Include="app\images\Logo.png" />
     <Content Include="app\images\MpCal-AT.png" />
+    <Content Include="app\images\MpCal-BK.png" />
     <Content Include="app\utils\__pycache__\guitools.cpython-36.pyc" />
     <Content Include="app\utils\__pycache__\__init__.cpython-36.pyc" />
     <Content Include="startup.ini" />
