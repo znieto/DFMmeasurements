@@ -23,6 +23,13 @@
   <ItemGroup>
     <Compile Include="app\config\configtools.py" />
     <Compile Include="app\config\global_settings.py" />
+    <Compile Include="app\config\jsontools - Copy.py" />
+    <Compile Include="app\config\jsontools.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\config\MeasurementSettings.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\config\__init__.py" />
     <Compile Include="app\core\CalibrationType.py">
       <SubType>Code</SubType>
@@ -69,6 +76,7 @@
     <Folder Include="app\forms\__pycache__\" />
     <Folder Include="app\core\" />
     <Folder Include="app\images\" />
+    <Folder Include="app\settings\" />
     <Folder Include="app\utils\" />
     <Folder Include="app\utils\__pycache__\" />
     <Folder Include="app\wizards\" />
@@ -90,6 +98,7 @@
     <Content Include="app\images\Logo.png" />
     <Content Include="app\images\MpCal-AT.png" />
     <Content Include="app\images\MpCal-BK.png" />
+    <Content Include="app\settings\mp-meas-v2.json" />
     <Content Include="app\utils\__pycache__\guitools.cpython-36.pyc" />
     <Content Include="app\utils\__pycache__\__init__.cpython-36.pyc" />
     <Content Include="startup.ini" />

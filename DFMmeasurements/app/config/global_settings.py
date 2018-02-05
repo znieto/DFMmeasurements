@@ -3,7 +3,6 @@
 Default application settings. 
 """
 
-my_string = "hello world"
 
 ####################
 # CORE             #

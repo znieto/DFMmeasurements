@@ -35,3 +35,8 @@ def move(filename, dirpath):
                             move(filename, full_path)
                     else:
                         pass
+                    
+def fileToString(fullpath):
+    f = open(fullpath,"r")
+    content= f.read()
+    return content
